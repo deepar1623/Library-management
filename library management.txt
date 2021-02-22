@@ -1,0 +1,779 @@
+SERVER SIDE CODE
+
+package npl.project;
+
+import java.util.*;
+
+import java.net.*;
+
+import java.io.*;
+
+import java.text.SimpleDateFormat;
+
+public class LibraryServer
+
+{
+
+    String [][]books;
+
+    String [][]bookissue;
+
+    DataInputStream dis;
+
+    DataOutputStream dos;
+
+    int counter;
+
+    LibraryServer()throws IOException
+
+    {
+
+        counter=0;
+
+        ServerSocket ss=new ServerSocket(1010);//1010 is the port no. on which client connections are accepted
+
+        Socket s=ss.accept();//accept connection from client
+
+        dis=new DataInputStream(s.getInputStream());//reading incoming data
+
+        dos=new DataOutputStream(s.getOutputStream());//writing data
+
+        
+
+        books=new String[10][5];
+
+        books[0][0]="IBN0001";
+
+        books[0][1]="Science";
+
+        books[0][2]="Randall Munroe";
+
+        books[0][3]="What if?";
+
+        books[0][4]="3";
+
+        //
+
+        books[1][0]="IBN0002";
+
+        books[1][1]="Science";
+
+        books[1][2]="Richard Dawkins";
+
+        books[1][3]="The Selfish Gene";
+
+        books[1][4]="3";
+
+        //
+
+        books[2][0]="IBN0003";
+
+        books[2][1]="Fiction";
+
+        books[2][2]="George Martin";
+
+        books[2][3]="A Game of Thrones";
+
+        books[2][4]="3";
+
+        //
+
+        books[3][0]="IBN0004";
+
+        books[3][1]="Fiction";
+
+        books[3][2]="Jane Austen";
+
+        books[3][3]="Pride and Prejudice";
+
+        books[3][4]="3";
+
+        //
+
+        books[4][0]="IBN0005";
+
+        books[4][1]="Fiction";
+
+        books[4][2]="J.K Rowling";
+
+        books[4][3]="Harry Potter Series";
+
+        books[4][4]="3";
+
+        //
+
+        books[5][0]="IBN0006";
+
+        books[5][1]="Self Help";
+
+        books[5][2]="Napoleon Hill";
+
+        books[5][3]="Think and Grow Rich";
+
+        books[5][4]="3";
+
+        //
+
+        books[6][0]="IBN0007";
+
+        books[6][1]="Self Help";
+
+        books[6][2]="Rhonda Byrne";
+
+        books[6][3]="The Secret";
+
+        books[6][4]="3";
+
+        //
+
+        books[7][0]="IBN0008";
+
+        books[7][1]="Autobiography";
+
+        books[7][2]="Sachin Tendulkar";
+
+        books[7][3]="Playing it my Way";
+
+        books[7][4]="3";
+
+        //
+
+        books[8][0]="IBN0009";
+
+        books[8][1]="Autobiography";
+
+        books[8][2]="Hellen Keller";
+
+        books[8][3]="Story of my Life";
+
+        books[8][4]="3";
+
+        //
+
+        books[9][0]="IBN0010";
+
+        books[9][1]="Autobiography";
+
+        books[9][2]="Andre Agassi";
+
+        books[9][3]="Open";
+
+        books[9][4]="3";
+
+       
+
+        bookissue = new String[20][4];
+
+    }
+
+    public static void main(String args[])throws Exception
+
+    {  
+
+        int choice=0;
+
+        LibraryServer ls = new LibraryServer();
+
+        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+
+        while(choice!=4)
+
+        {   ls.dos.writeUTF("\n1.View Books\n2.Issue Book\n3.Return Book\n4.Exit\nEnter Your Choice");
+
+            ls.dos.writeUTF("send");
+
+            choice=Integer.parseInt(ls.dis.readUTF());
+
+            switch(choice)
+
+            {
+
+                case 1:ls.viewBooks();
+
+                       break;
+
+                case 2 : ls.issueBooks();
+
+                         break;
+
+                case 3:ls.returnBooks();
+
+                          break;
+
+                case 4:ls.dos.writeUTF("Exit");
+
+            }
+
+        }
+
+    }
+
+   
+
+    void viewBooks()throws IOException
+
+    {
+
+       
+
+        dos.writeUTF("\nChoose Your Category:\n1.Science\n2.Fiction\n3.Self Help\n4.Autobiography");
+
+        dos.writeUTF("send");
+
+        int choice = Integer.parseInt(dis.readUTF());
+
+        switch(choice)
+
+        {
+
+            case 1:
+
+                    for(int i=0;i<=9;i++)
+
+                    {
+
+                        if(books[i][1].equals("Science"))
+
+                        {
+
+                          dos.writeUTF("\nAuthor:"+books[i][2]+"\nBook Name:"+books[i][3]);
+
+                         
+
+                         
+
+                         }
+
+                    }break;
+
+                case 2:
+
+                    for(int i=0;i<=9;i++)
+
+                    {
+
+                        if(books[i][1].equals("Fiction"))
+
+                        {
+
+                          dos.writeUTF("\nAuthor:"+books[i][2]+"\nBook Name:"+books[i][3]);
+
+                         
+
+                         }
+
+                    }break;
+
+                   
+
+                   
+
+                    case 3:
+
+                    for(int i=0;i<=9;i++)
+
+                    {
+
+                        if(books[i][1].equals("Self Help"))
+
+                        {
+
+                          dos.writeUTF("\nAuthor:"+books[i][2]+"\nBook Name:"+books[i][3]);
+
+                         }
+
+                    }break;
+
+                       
+
+                        case 4:
+
+                    for(int i=0;i<=9;i++)
+
+                    {
+
+                        if(books[i][1].equals("Autobiography"))
+
+                        {
+
+                          dos.writeUTF("\nAuthor:"+books[i][2]+"\nBook Name:"+books[i][3]);
+
+                         }
+
+                    }break;
+
+                            
+
+                        default:System.out.println("TRY AGAIN!!! :(");
+
+                               
+
+        }
+
+       
+
+       
+
+       
+
+    }
+
+   
+
+    void issueBooks()throws IOException
+
+    {
+
+        dos.writeUTF("Choose Your Category:");
+
+        dos.writeUTF("1.Science");
+
+        dos.writeUTF("2.Fiction");
+
+        dos.writeUTF("3.Self Help");
+
+        dos.writeUTF("4.Autobiography");
+
+        dos.writeUTF("send");
+
+        int choice = Integer.parseInt(dis.readUTF());
+
+        String bno="";
+
+        switch(choice)
+
+        {
+
+            case 1:
+
+                    for(int i=0;i<=9;i++)
+
+                    {
+
+                        if(books[i][1].equals("Science"))
+
+                        {
+
+                           dos.writeUTF("Book N0.:"+ books[i][0]);
+
+                          dos.writeUTF("Author:"+books[i][2]);
+
+                          dos.writeUTF("Book Name:"+books[i][3]);
+
+                         }
+
+                    }
+
+                    dos.writeUTF("Enter Selected Book No.");
+
+                    dos.writeUTF("send");
+
+                    bno = dis.readUTF();
+
+                   
+
+                  
+
+                    break;
+
+                case 2:
+
+                    for(int i=0;i<=9;i++)
+
+                    {
+
+                        if(books[i][1].equals("Fiction"))
+
+                        {
+
+                          dos.writeUTF("Book N0.:"+ books[i][0]);
+
+                          dos.writeUTF("Author:"+books[i][2]);
+
+                          dos.writeUTF("Book Name:"+books[i][3]);
+
+                         
+
+                         }
+
+                    }
+
+                    dos.writeUTF("Enter Selected Book No.");
+
+                    dos.writeUTF("send");
+
+                    bno = dis.readUTF();
+
+                   
+
+                   
+
+                    break;
+
+                   
+
+                   
+
+                    case 3:
+
+                    for(int i=0;i<=9;i++)
+
+                    {
+
+                        if(books[i][1].equals("Self Help"))
+
+                        {
+
+                          dos.writeUTF("Book N0.:"+ books[i][0]); 
+
+                          dos.writeUTF("Author:"+books[i][2]);
+
+                          dos.writeUTF("Book Name:"+books[i][3]);
+
+                         
+
+                         }
+
+                    }
+
+                    dos.writeUTF("Enter Selected Book No.");
+
+                    dos.writeUTF("send");
+
+                    bno = dis.readUTF();
+
+                    break;
+
+                        
+
+                        case 4:
+
+                    for(int i=0;i<=9;i++)
+
+                    {
+
+                        if(books[i][1].equals("Autobiography"))
+
+                        {
+
+                          dos.writeUTF("Book N0.:"+ books[i][0]); 
+
+                          dos.writeUTF("Author:"+books[i][2]);
+
+                          dos.writeUTF("Book Name:"+books[i][3]);
+
+                         
+
+                         }
+
+                    }
+
+                    dos.writeUTF("Enter Selected Book No.");
+
+                    dos.writeUTF("send");
+
+                    bno = dis.readUTF();
+
+                   
+
+                    break;
+
+                           
+
+                        default:dos.writeUTF("TRY AGAIN!!! :(");
+
+                               
+
+        }
+
+       
+
+        for(int i=0;i<=9;i++)
+
+        {
+
+            if(bno.equalsIgnoreCase(books[i][0]))
+
+            {
+
+                int copies=Integer.parseInt(books[i][4]);
+
+                if(copies==0)
+
+                    dos.writeUTF("Sorry!...Book Out of Stock");
+
+                else
+
+                {
+
+                   
+
+                    copies=copies-1;
+
+                    books[i][4]=""+copies;
+
+                    bookissue[counter][0]=books[i][0];
+
+                    SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd");
+
+                    Date d1=new Date();
+
+                    bookissue[counter][1]=dt1.format(d1).toString();
+
+                    
+
+                    dos.writeUTF("Enter Card No.");
+
+                    dos.writeUTF("send");
+
+                    bookissue[counter][3]=dis.readUTF();
+
+                    counter++;
+
+                    dos.writeUTF("Book Issued...Please Return it within Seven Days of Issue...else a penalty of rupees 5 per day ");
+
+                    display();
+
+                }
+
+            }
+
+        }
+
+    }
+
+    void display()throws IOException
+
+    {
+
+       for(int i=0;i<=9;i++)
+
+       {
+
+         dos.writeUTF(books[i][0]+" : "+books[i][1]+" : " + books[i][2]+" : "+ books[i][3]+" : "+books[i][4] );
+
+       }
+
+       for(int i=0;i<counter;i++)
+
+       {
+
+         dos.writeUTF(bookissue[i][0]+" : "+bookissue[i][1]+" : " + bookissue[i][2]+" : "+ bookissue[i][3]);
+
+       }
+
+    }
+
+    void returnBooks()throws Exception
+
+    {
+
+      dos.writeUTF("Enter ISBN number");
+
+      dos.writeUTF("send");
+
+      String bno = dis.readUTF();
+
+      dos.writeUTF("Enter Card No.");
+
+      dos.writeUTF("send");
+
+      String cardno=dis.readUTF();
+
+      for(int j=0;j<counter;j++)
+
+      {
+
+          if(bno.equalsIgnoreCase(bookissue[j][0]) && cardno.equalsIgnoreCase(bookissue[j][3]))
+
+                  {
+
+                      SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd");
+
+                    Date d1=new Date();
+
+                   
+
+                       
+
+                       
+
+                        //dos.writeUTF(d1.toString());
+
+                        Date d2=new SimpleDateFormat("yyyy-MM-dd").parse(bookissue[j][1]);
+
+                        //System.out.println(d2.toString());
+
+                        bookissue[j][2]=dt1.format(d1).toString();
+
+                       
+
+                        int days =d1.compareTo(d2);
+
+                       // dos.writeUTF(""+days);
+
+                        if(days>7)
+
+                        {
+
+                         int penalty=(days-7)*5;
+
+                         dos.writeUTF("Please pay a penalty of rupees:"+penalty+" since you are returning the book "+(days-7)+" days late");
+
+                        }
+
+                       
+
+      for(int i=0;i<=9;i++)
+
+      {
+
+          if(bno.equalsIgnoreCase(books[i][0]))
+
+          {
+
+              int copies=Integer.parseInt(books[i][4]);
+
+               copies++;
+
+               books[i][4]=""+copies;
+
+              
+
+          }
+
+         
+
+      }
+
+      dos.writeUTF("Book Returned");
+
+      display();
+
+                  }
+
+          else
+
+            dos.writeUTF("Enter Correct Book no. and Card No.");
+
+             
+
+      }
+
+    }
+
+}
+
+CLIENT SIDE CODE
+
+import java.net.*;
+
+import java.io.*;
+
+public class LibraryClient{
+
+   
+
+    public static void main(String args[])throws IOException
+
+    {   InetAddress inr=InetAddress.getLocalHost();
+
+        Socket s=new Socket(inr,1010);
+
+        DataInputStream dis=new DataInputStream(s.getInputStream());
+
+        DataOutputStream dos=new DataOutputStream(s.getOutputStream());
+
+        String msg="";
+
+        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+
+        while(!msg.equals("Exit"))
+
+        {   msg=dis.readUTF();
+
+            if(!msg.equals("send"))
+
+            System.out.println("Server Says: "+msg);
+
+            if(msg.equals("send"))
+
+            {
+
+            System.out.println("Client Says:");
+
+            msg=br.readLine();
+
+            dos.writeUTF(msg);
+
+            }
+
+        }
+
+    }
+
+}
+
+OUTPUT:
+
+run:
+
+Server Says:
+
+1.View Books
+
+2.Issue Book
+
+3.Return Book
+
+4.Exit
+
+Enter Your Choice
+
+Client Says:
+
+2
+
+Server Says: Choose Your Category:
+
+Server Says: 1.Science
+
+Server Says: 2.Fiction
+
+Server Says: 3.Self Help
+
+Server Says: 4.Autobiography
+
+Client Says:
+
+1
+
+Server Says: Book N0.:IBN0001
+
+Server Says: Author:Randall Munroe
+
+Server Says: Book Name:What if?
+
+Server Says: Book N0.:IBN0002
+
+Server Says: Author:Richard Dawkins
+
+Server Says: Book Name:The Selfish Gene
+
+Server Says: Enter Selected Book No.
+
+Client Says:
+
+ibn0002
+
+Server Says: Enter Card No.
+
+Client Says:
+
+123
+
+Server Says: Book Issued...Please Return it within Seven Days of Issue...else a penalty of rupees 5 per day
+
+Server Says: IBN0001 : Science : Randall Munroe : What if? : 3
+
+Server Says: IBN0002 : Science : Richard Dawkins : The Selfish G
